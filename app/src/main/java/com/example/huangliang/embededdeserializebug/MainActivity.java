@@ -11,45 +11,369 @@ import com.alibaba.fastjson.parser.JSONToken;
 import com.alibaba.fastjson.parser.ParserConfig;
 import com.alibaba.fastjson.parser.deserializer.ObjectDeserializer;
 import com.example.huangliang.embededdeserializebug.pojo.Area;
-import com.example.huangliang.embededdeserializebug.pojo.Data;
+import com.example.huangliang.embededdeserializebug.pojo.FloorPageData;
+import com.example.huangliang.embededdeserializebug.pojo.FloorV1;
+import com.example.huangliang.embededdeserializebug.pojo.FloorV2;
+import com.example.huangliang.embededdeserializebug.pojo.MockResult;
+import com.example.huangliang.embededdeserializebug.pojo.NetResponse;
+import com.example.huangliang.embededdeserializebug.pojo.Section;
 import com.example.huangliang.embededdeserializebug.pojo.Floor;
-import com.example.huangliang.embededdeserializebug.pojo.Item;
 
 import java.lang.reflect.Type;
 
 public class MainActivity extends AppCompatActivity {
 
     static String jsonData = "{\n" +
-            "    \"areaList\":[\n" +
+            "    \"areas\": [\n" +
+            "      {\n" +
+            "        \"@type\": \"section\",\n" +
+            "        \"templateId\": \"grid\",\n" +
+            "        \"style\": {\n" +
+            "          \"card\" : \"true\",\n" +
+            "          \"column-count\":\"2\",\n" +
+            "          \"aspect-ratio\":\"2\",\n" +
+            "          \"margins\":\"16 0 16 16\",\n" +
+            "          \"background-color\": \"#ffffff\",\n" +
+            "          \"column-gap\": \"10\"\n" +
+            "        },\n" +
+            "        \"children\": [\n" +
             "        {\n" +
-            "            \"type\":\"floor\",\n" +
-            "            \"name\":\"I'm floor\",\n" +
-            "            \"children\":[{\n" +
-            "                \"type\":\"item\",\n" +
-            "            \"name\":\"I'm item 0\"\n" +
+            "        \"@type\": \"section\",\n" +
+            "        \"templateId\": \"grid\",\n" +
+            "        \"style\": {\n" +
+            "          \"card\" : \"true\",\n" +
+            "          \"column-count\":\"2\",\n" +
+            "          \"aspect-ratio\":\"2\",\n" +
+            "          \"margins\":\"16 0 16 16\",\n" +
+            "          \"background-color\": \"#ffffff\",\n" +
+            "          \"column-gap\": \"10\"\n" +
+            "        },\n" +
+            "        \"children\": [\n" +
+            "          {\n" +
+            "            \"@type\": \"floorV2\",\n" +
+            "            \"templateId\": \"base\",\n" +
+            "            \"image\": \"http://xxx\",\n" +
+            "            \"fields\": [\n" +
+            "              {\n" +
+            "                \"index\": 0,\n" +
+            "                \"value\": \"xxxx\",\n" +
+            "                \"type\": \"text\",\n" +
+            "                \"track\": {\n" +
+            "                  \"name\": \"track name\",\n" +
+            "                  \"params\": {\n" +
+            "                    \"trackParam1\": \"trackParam1\"\n" +
+            "                  }\n" +
+            "                },\n" +
+            "                \"extInfo\": {\n" +
+            "                  \"likeByMe\": \"true\",\n" +
+            "                  \"isFollowed\": \"true\"\n" +
+            "                },\n" +
+            "                \"action\": {\n" +
+            "                  \"type\": \"click\",\n" +
+            "                  \"action\": \"aecmd://nativie/invokeApi?name=key1&likeId=111&likeByMe=true\"\n" +
+            "                }\n" +
+            "              }\n" +
+            "            ],\n" +
+            "            \"bizId\": \"banner-myae-1-746877468\",\n" +
+            "            \"style\": {\n" +
+            "              \"card\" : \"true\",\n" +
+            "              \"background-color\": \"#000000\"\n" +
             "            },\n" +
+            "            \"isTest\": false\n" +
+            "          },\n" +
+            "          {\n" +
+            "            \"@type\": \"floorV2\",\n" +
+            "            \"templateId\": \"base\",\n" +
+            "            \"image\": \"http://xxx\",\n" +
+            "            \"fields\": [\n" +
+            "              {\n" +
+            "                \"index\": 0,\n" +
+            "                \"value\": \"xxxx\",\n" +
+            "                \"type\": \"text\",\n" +
+            "                \"track\": {\n" +
+            "                  \"name\": \"track name\",\n" +
+            "                  \"params\": {\n" +
+            "                    \"trackParam1\": \"trackParam1\"\n" +
+            "                  }\n" +
+            "                },\n" +
+            "                \"action\": {\n" +
+            "                  \"type\": \"click\",\n" +
+            "                  \"action\": \"aecmd://xxxx\"\n" +
+            "                }\n" +
+            "              }\n" +
+            "            ],\n" +
+            "            \"extInfo\": {\n" +
+            "              \"likeByMe\": \"true\"\n" +
+            "            },\n" +
+            "            \"bizId\": \"banner-myae-1-746877468\",\n" +
+            "            \"style\": {\n" +
+            "              \"card\" : \"true\",\n" +
+            "              \"background-color\": \"#ffc1c1\"\n" +
+            "            },\n" +
+            "            \"isTest\": false\n" +
+            "          }\n" +
+            "        ]\n" +
+            "      },\n" +
+            "          {\n" +
+            "            \"@type\": \"floorV2\",\n" +
+            "            \"templateId\": \"base\",\n" +
+            "            \"image\": \"http://xxx\",\n" +
+            "            \"fields\": [\n" +
+            "              {\n" +
+            "                \"index\": 0,\n" +
+            "                \"value\": \"xxxx\",\n" +
+            "                \"type\": \"text\",\n" +
+            "                \"track\": {\n" +
+            "                  \"name\": \"track name\",\n" +
+            "                  \"params\": {\n" +
+            "                    \"trackParam1\": \"trackParam1\"\n" +
+            "                  }\n" +
+            "                },\n" +
+            "                \"extInfo\": {\n" +
+            "                  \"likeByMe\": \"true\",\n" +
+            "                  \"isFollowed\": \"true\"\n" +
+            "                },\n" +
+            "                \"action\": {\n" +
+            "                  \"type\": \"click\",\n" +
+            "                  \"action\": \"aecmd://nativie/invokeApi?name=key1&likeId=111&likeByMe=true\"\n" +
+            "                }\n" +
+            "              }\n" +
+            "            ],\n" +
+            "            \"bizId\": \"banner-myae-1-746877468\",\n" +
+            "            \"style\": {\n" +
+            "              \"card\" : \"true\",\n" +
+            "              \"background-color\": \"#000000\"\n" +
+            "            },\n" +
+            "            \"isTest\": false\n" +
+            "          },\n" +
+            "          {\n" +
+            "            \"@type\": \"floorV2\",\n" +
+            "            \"templateId\": \"base\",\n" +
+            "            \"image\": \"http://xxx\",\n" +
+            "            \"fields\": [\n" +
+            "              {\n" +
+            "                \"index\": 0,\n" +
+            "                \"value\": \"xxxx\",\n" +
+            "                \"type\": \"text\",\n" +
+            "                \"track\": {\n" +
+            "                  \"name\": \"track name\",\n" +
+            "                  \"params\": {\n" +
+            "                    \"trackParam1\": \"trackParam1\"\n" +
+            "                  }\n" +
+            "                },\n" +
+            "                \"action\": {\n" +
+            "                  \"type\": \"click\",\n" +
+            "                  \"action\": \"aecmd://xxxx\"\n" +
+            "                }\n" +
+            "              }\n" +
+            "            ],\n" +
+            "            \"extInfo\": {\n" +
+            "              \"likeByMe\": \"true\"\n" +
+            "            },\n" +
+            "            \"bizId\": \"banner-myae-1-746877468\",\n" +
+            "            \"style\": {\n" +
+            "              \"card\" : \"true\",\n" +
+            "              \"background-color\": \"#ffc1c1\"\n" +
+            "            },\n" +
+            "            \"isTest\": false\n" +
+            "          }\n" +
+            "        ]\n" +
+            "      }\n" +
+            "    ],\n" +
+            "    \"version\": 3,\n" +
+            "    \"currency\": \"RUB\"\n" +
+            "  }";
+
+    static String floordata = "{\n" +
+            "    \"isTest\": true,\n" +
+            "    \"mockResult\": {\n" +
+            "  \"body\": {\n" +
+            "    \"areas\": [\n" +
+            "      {\n" +
+            "        \"@type\": \"section\",\n" +
+            "        \"templateId\": \"grid\",\n" +
+            "        \"style\": {\n" +
+            "          \"card\" : \"true\",\n" +
+            "          \"column-count\":\"2\",\n" +
+            "          \"aspect-ratio\":\"2\",\n" +
+            "          \"margins\":\"16 0 16 16\",\n" +
+            "          \"background-color\": \"#ffffff\",\n" +
+            "          \"column-gap\": \"10\"\n" +
+            "        },\n" +
+            "        \"children\": [\n" +
             "        {\n" +
-            "              \"type\":\"item\",\n" +
-            "            \"name\":\"I'm item 1\"\n" +
-            "        }\n" +
-            "\n" +
-            "            ]\n" +
-            "        },{\n" +
-            "            \"type\":\"item\",\n" +
-            "            \"name\":\"I'm item 2\"\n" +
-            "        }\n" +
-            "    ]\n" +
+            "        \"@type\": \"section\",\n" +
+            "        \"templateId\": \"grid\",\n" +
+            "        \"style\": {\n" +
+            "          \"card\" : \"true\",\n" +
+            "          \"column-count\":\"2\",\n" +
+            "          \"aspect-ratio\":\"2\",\n" +
+            "          \"margins\":\"16 0 16 16\",\n" +
+            "          \"background-color\": \"#ffffff\",\n" +
+            "          \"column-gap\": \"10\"\n" +
+            "        },\n" +
+            "        \"children\": [\n" +
+            "          {\n" +
+            "            \"@type\": \"floorV2\",\n" +
+            "            \"templateId\": \"base\",\n" +
+            "            \"image\": \"http://xxx\",\n" +
+            "            \"fields\": [\n" +
+            "              {\n" +
+            "                \"index\": 0,\n" +
+            "                \"value\": \"xxxx\",\n" +
+            "                \"type\": \"text\",\n" +
+            "                \"track\": {\n" +
+            "                  \"name\": \"track name\",\n" +
+            "                  \"params\": {\n" +
+            "                    \"trackParam1\": \"trackParam1\"\n" +
+            "                  }\n" +
+            "                },\n" +
+            "                \"extInfo\": {\n" +
+            "                  \"likeByMe\": \"true\",\n" +
+            "                  \"isFollowed\": \"true\"\n" +
+            "                },\n" +
+            "                \"action\": {\n" +
+            "                  \"type\": \"click\",\n" +
+            "                  \"action\": \"aecmd://nativie/invokeApi?name=key1&likeId=111&likeByMe=true\"\n" +
+            "                }\n" +
+            "              }\n" +
+            "            ],\n" +
+            "            \"bizId\": \"banner-myae-1-746877468\",\n" +
+            "            \"style\": {\n" +
+            "              \"card\" : \"true\",\n" +
+            "              \"background-color\": \"#000000\"\n" +
+            "            },\n" +
+            "            \"isTest\": false\n" +
+            "          },\n" +
+            "          {\n" +
+            "            \"@type\": \"floorV2\",\n" +
+            "            \"templateId\": \"base\",\n" +
+            "            \"image\": \"http://xxx\",\n" +
+            "            \"fields\": [\n" +
+            "              {\n" +
+            "                \"index\": 0,\n" +
+            "                \"value\": \"xxxx\",\n" +
+            "                \"type\": \"text\",\n" +
+            "                \"track\": {\n" +
+            "                  \"name\": \"track name\",\n" +
+            "                  \"params\": {\n" +
+            "                    \"trackParam1\": \"trackParam1\"\n" +
+            "                  }\n" +
+            "                },\n" +
+            "                \"action\": {\n" +
+            "                  \"type\": \"click\",\n" +
+            "                  \"action\": \"aecmd://xxxx\"\n" +
+            "                }\n" +
+            "              }\n" +
+            "            ],\n" +
+            "            \"extInfo\": {\n" +
+            "              \"likeByMe\": \"true\"\n" +
+            "            },\n" +
+            "            \"bizId\": \"banner-myae-1-746877468\",\n" +
+            "            \"style\": {\n" +
+            "              \"card\" : \"true\",\n" +
+            "              \"background-color\": \"#ffc1c1\"\n" +
+            "            },\n" +
+            "            \"isTest\": false\n" +
+            "          }\n" +
+            "        ]\n" +
+            "      },\n" +
+            "          {\n" +
+            "            \"@type\": \"floorV2\",\n" +
+            "            \"templateId\": \"base\",\n" +
+            "            \"image\": \"http://xxx\",\n" +
+            "            \"fields\": [\n" +
+            "              {\n" +
+            "                \"index\": 0,\n" +
+            "                \"value\": \"xxxx\",\n" +
+            "                \"type\": \"text\",\n" +
+            "                \"track\": {\n" +
+            "                  \"name\": \"track name\",\n" +
+            "                  \"params\": {\n" +
+            "                    \"trackParam1\": \"trackParam1\"\n" +
+            "                  }\n" +
+            "                },\n" +
+            "                \"extInfo\": {\n" +
+            "                  \"likeByMe\": \"true\",\n" +
+            "                  \"isFollowed\": \"true\"\n" +
+            "                },\n" +
+            "                \"action\": {\n" +
+            "                  \"type\": \"click\",\n" +
+            "                  \"action\": \"aecmd://nativie/invokeApi?name=key1&likeId=111&likeByMe=true\"\n" +
+            "                }\n" +
+            "              }\n" +
+            "            ],\n" +
+            "            \"bizId\": \"banner-myae-1-746877468\",\n" +
+            "            \"style\": {\n" +
+            "              \"card\" : \"true\",\n" +
+            "              \"background-color\": \"#000000\"\n" +
+            "            },\n" +
+            "            \"isTest\": false\n" +
+            "          },\n" +
+            "          {\n" +
+            "            \"@type\": \"floorV2\",\n" +
+            "            \"templateId\": \"base\",\n" +
+            "            \"image\": \"http://xxx\",\n" +
+            "            \"fields\": [\n" +
+            "              {\n" +
+            "                \"index\": 0,\n" +
+            "                \"value\": \"xxxx\",\n" +
+            "                \"type\": \"text\",\n" +
+            "                \"track\": {\n" +
+            "                  \"name\": \"track name\",\n" +
+            "                  \"params\": {\n" +
+            "                    \"trackParam1\": \"trackParam1\"\n" +
+            "                  }\n" +
+            "                },\n" +
+            "                \"action\": {\n" +
+            "                  \"type\": \"click\",\n" +
+            "                  \"action\": \"aecmd://xxxx\"\n" +
+            "                }\n" +
+            "              }\n" +
+            "            ],\n" +
+            "            \"extInfo\": {\n" +
+            "              \"likeByMe\": \"true\"\n" +
+            "            },\n" +
+            "            \"bizId\": \"banner-myae-1-746877468\",\n" +
+            "            \"style\": {\n" +
+            "              \"card\" : \"true\",\n" +
+            "              \"background-color\": \"#ffc1c1\"\n" +
+            "            },\n" +
+            "            \"isTest\": false\n" +
+            "          }\n" +
+            "        ]\n" +
+            "      }\n" +
+            "    ],\n" +
+            "    \"version\": 3,\n" +
+            "    \"currency\": \"RUB\"\n" +
+            "  },\n" +
+            "  \"head\": {\n" +
+            "    \"message\": \"\",\n" +
+            "    \"serverTime\": 1489473042814,\n" +
+            "    \"code\": \"200\",\n" +
+            "    \"ab\": \"yepxf_B\"\n" +
+            "  }\n" +
+            "}\n" +
             "}";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        injectDeserialize();
+        //设置为true 解析内容为空 不设置 直接crash
+        ParserConfig.getGlobalInstance().setAutoTypeSupport(true);
 
-        Data data = JsonUtil.json2pojo(jsonData, Data.class);
+        //直接解析 没有问题
+//        Data data = JsonUtil.json2pojo(jsonData, Data.class);
 
-        Item item = (Item) ((Floor)(data.areaList.get(0))).children.get(0);
+        //分层解析 有问题。先解析成jsonobject 这个就有问题了
+        MockResult data = JsonUtil.json2pojo(floordata, MockResult.class);
+
+        NetResponse response = JsonUtil.json2pojo(JsonUtil.pojo2json(data.mockResult), NetResponse.class);
+
+        FloorPageData pageData = JsonUtil.json2pojo(JsonUtil.pojo2json(response.body), FloorPageData.class);
+
+        Log.i("tet", (pageData.areas.get(0)).getName());
 
     }
 
@@ -65,10 +389,15 @@ public class MainActivity extends AppCompatActivity {
                 } else {
                     return null;
                 }
-                if (Area.TYPE_FLOOR.equals(areaType)) {
-                    return (T) JSON.toJavaObject(jsonObject, Floor.class);
-                } else if (Area.TYPE_ITEM.equals(areaType)) {
-                    return (T) JSON.toJavaObject(jsonObject, Item.class);
+                if (Area.TYPE_SECTION.equals(areaType)) {
+                    String text = jsonObject.toJSONString();
+                    return (T) JSON.parseObject(text, Section.class);
+                } else if (Area.TYPE_FLOORV1.equals(areaType)) {
+                    String text = jsonObject.toJSONString();
+                    return (T) JSON.parseObject(text, FloorV1.class);
+                } else if (Area.TYPE_FLOORV2.equals(areaType)) {
+                    String text = jsonObject.toJSONString();
+                    return (T) JSON.parseObject(text, FloorV2.class);
                 }
 
                 return null;
@@ -80,4 +409,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 }
