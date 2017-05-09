@@ -13,6 +13,6 @@ public class FloorV2 implements Floor {
 
     @Override
     public String getName() {
-        return null;
+        return templateId;
     }
 }
